@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScoresTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateScoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('message_id');
             $table->unsignedInteger('user_id');
-            $table->integer('bats');
-            $table->integer('hits');
-            $table->integer('home_run');
-            $table->integer('stolen_base');
-            $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
-
             $table->timestamps();
+                        $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');                                                                                 
+                  $table->foreign('message_id')
+                  ->references('id')->on('messages')
+                  ->onDelete('cascade');
         });
     }
 
@@ -35,6 +34,6 @@ class CreateScoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scores');
+        Schema::dropIfExists('likes');
     }
 }
